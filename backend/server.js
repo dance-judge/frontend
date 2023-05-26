@@ -15,7 +15,8 @@ app.use(express.json()) //api endpoint in JSON
 
 //api rotes register
 const matchesRouter = require('./api_routes/api_matches')
-const userRouter = require('./api_routes/api_auth')
+const userRouter = require('./api_routes/api_auth');
+const matches = require('./api_routes/data/matches');
 
 app.use('/matches', matchesRouter)
 app.use('/auth', userRouter)
@@ -49,8 +50,17 @@ wss.on('connection', ws => {
   // Handle incoming messages from the client
   ws.on('message', message => {
     // Broadcast the received message to all clients
-    console.log(JSON.parse(message.toString()))
-    broadcastMessage(message);
+    // console.log(JSON.parse(message.toString()))
+    matches.splice(0,matches.length)
+    let receivedMessages = JSON.parse(message.toString())
+    for (const key in receivedMessages) {
+      matches.push(receivedMessages[key])
+    }
+    // message.body.forEach(element => {
+      
+    // });
+
+    broadcastMessage(JSON.stringify(matches));
   });
 
   // Handle client disconnection

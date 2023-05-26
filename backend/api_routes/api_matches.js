@@ -25,7 +25,7 @@ function verifyToken(token) {
       else return false
 };
 
-//1 API-EP for getting list of all users
+//1 API-EP for getting list of all matches
 router.route('/').get((req, response) => {
     const token = req.headers.token
     //TODO: uncomment in prod
@@ -35,7 +35,7 @@ router.route('/').get((req, response) => {
     response.send(response.json(matches))
 })
 
-//1 API-EP for getting list of all users
+//3 API-EP for getting list of all users
 router.route('/generate').post((req, response) => {
     const token = req.headers.token
     console.log(req.body)
