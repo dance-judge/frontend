@@ -1,7 +1,21 @@
+const participants = require('./data/participants')
 const router = require('express').Router()
 const matches = require('./data/matches')
 const users = require("./data/users")
 // const verifyToken = require('./api_auth');
+
+class Match {
+    constructor(id, name, nextMatchId, nextLooserMatchId, tournamentRoundText, startTime, state, participants) {
+        this.id = id;
+        this.name = name;
+        this.nextMatchId = nextMatchId; 
+        this.nextLooserMatchId = nextLooserMatchId;
+        this.tournamentRoundText = tournamentRoundText;
+        this.startTime = startTime;
+        this.state = state;
+        this.participants = participants
+      }
+}
 
 function verifyToken(token) {
     //   const decoded = jwt.verify(token, TOKEN_KEY);
@@ -21,25 +35,61 @@ router.route('/').get((req, response) => {
     response.send(response.json(matches))
 })
 
+//1 API-EP for getting list of all users
+router.route('/generate').post((req, response) => {
+    const token = req.headers.token
+    console.log(req.body)
+    generateMatchesBasedOn16Participants(req.body)
+    //TODO: uncomment in prod
+    // if (!verifyToken(token)) {
+    //     response.sendStatus(401);
+    // }
+    response.send(response.json(matches))
+})
 
-//3 API-EP for getting one exercise by id
-// router.route('/:id').get((req, response) => {
-  
-//     const token = req.headers.token
-//     if (!verifyToken(token)) {
-//         response.sendStatus(401);
-//     }
-//     const product = (productsFullInfo[0]).find(item => item.id == req.params.id); //string and number
 
+//function for generation of base 8 matches
+function generateMatchesBasedOn16Participants(array16Participants) {
+    //clear the test element for types problem
+    matches.splice(0,matches.length)
 
-//     if (product === undefined || product === null) {
-//         response.sendStatus(404);
-//     } else {
-//         response.send(response.json(product))
-//     }
-    
-    
-// })
-// productsFullInfo[req.params.id]
+    //add participants to array in back
+    array16Participants.forEach(element => {
+        participants.push(element);
+    });
+
+    //shuffle participants
+    participants.sort(() => Math.random() - 0.5);
+
+    //generate matches
+    let participantCounter = 1; // <= 16
+    for (let i = 1; i <= 8; i++) {
+       let actualMatch = new Match(i,"1/8 Final", null, null, "6", "2021-05-30", "Done", [
+        {
+            id: participantCounter,
+            resultText: 0,
+            isWinner: false,
+            status: null,
+            name: participants[participantCounter],
+            picture: null
+        },
+        {
+            id: participantCounter+1,
+            resultText: 0,
+            isWinner: false,
+            status: null,
+            name: participants[participantCounter+1],
+            picture: null
+        }
+
+    ]);
+        
+        matches.push(actualMatch);
+
+        participantCounter+=2;
+    }
+
+}
+
 
 module.exports = router
