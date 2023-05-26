@@ -1,5 +1,4 @@
 const router = require('express').Router()
-const productsLittleInfo = require('./data/productsLittleInfo')
 const matches = require('./data/matches')
 const users = require("./data/users")
 // const verifyToken = require('./api_auth');
