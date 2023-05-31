@@ -72,25 +72,22 @@ router.route('/:id').get((req, response) => {
 function generateMatchesBasedOn16Participants(array16Participants) {
     //clear the test element for types problem
     matches.splice(0,matches.length)
-
     //add participants to array in back
     array16Participants.forEach(element => {
         participants.push(element);
     });
-
     //shuffle participants
     participants.sort(() => Math.random() - 0.5);
-
     //generate matches
     let participantCounter = 1; // <= 16
     for (let i = 1; i <= 8; i++) {
-       let actualMatch = new Match(i,"1/8 Final", null, null, "6", "2021-05-30", "Done", [
+       let actualMatch = new Match(i,"1/8 Final", null, null, "6", "2021-05-30", "Undone", [
         {
             id: participantCounter,
             resultText: 0,
             isWinner: false,
             status: null,
-            name: participants[participantCounter],
+            name: participants[participantCounter-1],
             picture: null
         },
         {
@@ -98,7 +95,7 @@ function generateMatchesBasedOn16Participants(array16Participants) {
             resultText: 0,
             isWinner: false,
             status: null,
-            name: participants[participantCounter+1],
+            name: participants[participantCounter],
             picture: null
         }
 
@@ -111,8 +108,99 @@ function generateMatchesBasedOn16Participants(array16Participants) {
 
 }
 
-function updateWinners() {
-//mutate matches 
+function updateWinners(incomeMatches) {
+    
+    incomeMatches.forEach((element, index) => {
+        if (element.id === 15) {
+            if (element.participants.length === 2) {
+                matches[index].participants[0].resultText = element.participants[0].resultText
+                matches[index].participants[1].resultText = element.participants[1].resultText
+            if (element.participants[0].resultText !== element.participants[1].resultText) {
+                let winner
+                if (element.participants[0].resultText > element.participants[1].resultText) {
+                    winner = element.participants[0]
+                    matches[index].participants[0].isWinner = true
+                } else {
+                    winner = element.participants[1]
+                    matches[index].participants[1].isWinner = true
+                }
+            }
+            }
+            return;
+        }
+        //next match is null or with 1 participant => we need to create a match or compare and add winner
+        if (element.state !== "Done") {
+        if (element.nextMatchId === null) {
+            //1 or 2 participants => 1 - skip, 2 - if two has same points -> skip
+            if (element.participants.length === 2) {
+                    matches[index].participants[0].resultText = element.participants[0].resultText
+                    matches[index].participants[1].resultText = element.participants[1].resultText
+                if (element.participants[0].resultText !== element.participants[1].resultText) {
+                    let winner
+                    if (element.participants[0].resultText > element.participants[1].resultText) {
+                        winner = element.participants[0]
+                        matches[index].participants[0].isWinner = true
+                    } else {
+                        winner = element.participants[1]
+                        matches[index].participants[1].isWinner = true
+                    }
+                    
+                    //set the nextmatch id on exist new match
+                    if (index !== 8-1 && index !== 12-1 && index !== 14-1) {
+                        matches[index+1].nextMatchId = matches.length+1
+                    }
+                    matches[index].state = "Done"
+                    let match = new Match(matches.length+1, "1/8 Final", null, null, "6", "2021-05-35", "Undone", [
+                        {
+                            id: winner.id,
+                            resultText: 0,
+                            isWinner: false,
+                            status: null,
+                            name: winner.name,
+                            picture: null
+                        },
+                    ]);
+                  
+                    matches.push(match)
+                    matches[index].nextMatchId = matches[matches.length-1].id
+
+            
+                }
+            }
+        } else {
+            if (element.participants.length === 2) {
+                matches[index].participants[0].resultText = element.participants[0].resultText
+                matches[index].participants[1].resultText = element.participants[1].resultText
+            if (element.participants[0].resultText !== element.participants[1].resultText) {
+                let winner
+                if (element.participants[0].resultText > element.participants[1].resultText) {
+                    winner = element.participants[0]
+                    matches[index].participants[0].isWinner = true
+                } else {
+                    winner = element.participants[1]
+                    matches[index].participants[1].isWinner = true
+                }
+           
+
+                let match = matches[element.nextMatchId-1]
+                match.participants.push(
+                    {
+                        id: winner.id,
+                        resultText: 0,
+                        isWinner: false,
+                        status: null,
+                        name: winner.name,
+                        picture: null
+                    },
+                )
+                matches[index].state = "Done"
+             
+            }
+        }
+        }
+    }
+    });  
+     
 }
 
 module.exports = router

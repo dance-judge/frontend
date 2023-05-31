@@ -1,5 +1,3 @@
-const participants = [
-    
-] 
+const participants = new Array()
 
-module.exports = [participants];
+module.exports = participants;
