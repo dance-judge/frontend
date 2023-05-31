@@ -47,6 +47,26 @@ router.route('/generate').post((req, response) => {
     response.send(response.json(matches))
 })
 
+router.route('/update').post((req, response) => {
+   updateWinners(req.body)
+    //TODO: uncomment in prod
+    // const token = req.headers.token
+    // if (!verifyToken(token)) {
+    //     response.sendStatus(401);
+    // }
+    response.send(response.json(matches))
+})
+
+
+router.route('/:id').get((req, response) => {
+    
+    //TODO: uncomment in prod
+    // const token = req.headers.token
+    // if (!verifyToken(token)) {
+    //     response.sendStatus(401);
+    // }
+    response.send(response.json(matches[req.params.id]))
+})
 
 //function for generation of base 8 matches
 function generateMatchesBasedOn16Participants(array16Participants) {
@@ -91,5 +111,8 @@ function generateMatchesBasedOn16Participants(array16Participants) {
 
 }
 
+function updateWinners() {
+//mutate matches 
+}
 
 module.exports = router
