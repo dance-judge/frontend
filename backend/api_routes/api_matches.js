@@ -86,7 +86,7 @@ function generateMatchesBasedOn16Participants(array16Participants) {
             id: participantCounter,
             resultText: 0,
             isWinner: false,
-            status: null,
+            status: "phoenix_unused",
             name: participants[participantCounter-1],
             picture: null
         },
@@ -94,7 +94,7 @@ function generateMatchesBasedOn16Participants(array16Participants) {
             id: participantCounter+1,
             resultText: 0,
             isWinner: false,
-            status: null,
+            status: "phoenix_unused",
             name: participants[participantCounter],
             picture: null
         }
