@@ -10,7 +10,8 @@ export const TableAdminBar = (props) => {
             {props.users.map((e) => <>{
                <div className="sidebar__list" id={e.id}>{e.name}</div>
             }</>)}
-       
+        
+        
               <div className="sidebar__btn btn btn--orange">randomize</div>
          </div>
       </div>
