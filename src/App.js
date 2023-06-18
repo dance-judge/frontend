@@ -1,4 +1,4 @@
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
+import {BrowserRouter as Router, Routes, Route, HashRouter  } from 'react-router-dom'
 import { Login } from './components/auth/Login';
 import { JudgePage } from './components/judge/JudgePage'
 import { AdminAddUsers } from 'components/admin/AdminAddUsers';
@@ -12,7 +12,7 @@ import { TablePage } from 'components/shared/Table/TablePage';
 function App() {
   return (
     <>
-        <Router>
+        <HashRouter>
           <Routes>
           {/* judge */}
             <Route path='/judge' element={<JudgePage/>}>
@@ -33,7 +33,7 @@ function App() {
           {/* auth */}
             <Route path='/login' element={<Login/>}/>
           </Routes>
-        </Router>
+        </HashRouter>
     </>
   );
 }
