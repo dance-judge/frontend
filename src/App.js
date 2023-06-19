@@ -13,7 +13,6 @@ function App() {
   //check for deployment
   return (
     <>
-        <HashRouter>
           <Routes>
           {/* judge */}
             <Route path='/judge' element={<JudgePage/>}>
@@ -33,8 +32,8 @@ function App() {
             </Route>
           {/* auth */}
             <Route path='/login' element={<Login/>}/>
+            <Route path='*' element={<Login/>}/>
           </Routes>
-        </HashRouter>
     </>
   );
 }
