@@ -10,6 +10,20 @@ export const Table = (props) => {
     const [timer1, setTimer1] = useState('01:00');
     const [timer2, setTimer2] = useState('01:00');
 
+// =============SWIPER==============
+useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/swiper@9/swiper-element-bundle.min.js';
+    script.async = true;
+
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+// =============SWIPER(end)==============
+
     const handleTimerChange = (event, timerNumber) => {
         const value = event.target.value;
 
@@ -42,10 +56,10 @@ export const Table = (props) => {
                     <li>Final</li>
                 </ul>
                 <div className="table__main main-table">
-
+             
 
                     {/* ===========================КОЛОНКА-1============================= */}
-
+           
                     <div className="main-table__column column--first ">
 
 
@@ -532,6 +546,7 @@ export const Table = (props) => {
                         {/* ============Внутри 2 компонента(END)========= */}
 
                     </div>
+              
                     {/* ===========================КОЛОНКА-1(END)============================= */}
 
                     <div className="main-table__column column column--connect">
@@ -544,7 +559,7 @@ export const Table = (props) => {
 
 
                     {/* ===========================КОЛОНКА-2============================= */}
-
+              
                     <div className="main-table__column column ">
 
 
@@ -789,6 +804,7 @@ export const Table = (props) => {
 
 
                     </div>
+                
                     {/* ===========================КОЛОНКА-2(END)============================= */}
 
                     <div className="main-table__column  column--connect">
@@ -800,7 +816,7 @@ export const Table = (props) => {
 
 
                     {/* ===========================КОЛОНКА-3============================= */}
-
+         
                     <div className="main-table__column column column2">
 
 
@@ -924,6 +940,7 @@ export const Table = (props) => {
                         </div>
 
                     </div>
+              
                     {/* ===========================КОЛОНКА-3(END)============================= */}
 
                     <div className="main-table__column column column--connect">
@@ -933,7 +950,7 @@ export const Table = (props) => {
 
 
                     {/* ===========================КОЛОНКА-4============================= */}
-
+                 
                     <div className="main-table__column column ">
 
 
@@ -1003,10 +1020,11 @@ export const Table = (props) => {
 
 
                     </div>
+               
                     {/* ===========================КОЛОНКА-4(END)============================= */}
 
 
-
+                   
                 </div>
             </div>
 
