@@ -10,6 +10,7 @@ import { ScreenPage } from 'components/screen/ScreenPage';
 import React from 'react';
 import { TablePage } from 'components/shared/Table/TablePage';
 function App() {
+  //check for deployment
   return (
     <>
         <HashRouter>
